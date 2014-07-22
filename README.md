@@ -154,6 +154,16 @@ Content of <tt>~rancid/.cloginrc</tt>
 
 - *Default*: 'USE_DEFAULTS'
 
+mail_users
+----------------
+Email addresses or local users who receive RANCID change notification email..
+ - *Default*: []
+
+mail_admins
+----------------
+Email addresses or local users who receive administration notification emails.
+- *Default*: ['root']
+
 ===
 
 # define rancid::router_db
