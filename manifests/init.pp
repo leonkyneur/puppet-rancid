@@ -145,6 +145,7 @@ class rancid (
   validate_absolute_path($cloginrc_path)
 
   validate_array($mail_users)
+  validate_array($mail_admins)
 
   package { $packages_real:
     ensure => present,
