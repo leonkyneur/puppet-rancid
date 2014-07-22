@@ -21,6 +21,8 @@ class rancid (
   $shell            = 'USE_DEFAULTS',
   $cron_d_file      = '/etc/cron.d/rancid',
   $cloginrc_content = 'USE_DEFAULTS',
+  $mail_users       = [],
+  $mail_admins      = ['root'],
 ) {
 
   # set default parameters
@@ -142,6 +144,8 @@ class rancid (
   $cloginrc_path = "${homedir_real}/.cloginrc"
   validate_absolute_path($cloginrc_path)
 
+  validate_array($mail_users)
+
   package { $packages_real:
     ensure => present,
   }
@@ -215,4 +219,25 @@ class rancid (
     mode    => '0600',
     content => $cloginrc_content_real,
   }
+
+  if $mail_users != '' {
+    $aliases = prefix($groups, 'rancid-')
+    mailalias{ $aliases:
+      ensure    => present,
+      recipient => $mail_users,
+    }
+    exec { 'newaliases':
+      command     => '/usr/bin/newaliases',
+      refreshonly => true,
+      subscribe   => Mailalias[$aliases],
+    }
+  }
+
+  $admin_aliases = prefix($groups, 'rancid-admin-')
+  mailalias { $admin_aliases:
+    ensure    => present,
+    recipient => $mail_admins,
+  }
+
+
 }
