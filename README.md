@@ -162,7 +162,7 @@ Email addresses or local users who receive RANCID change notification email..
 mail_admins
 ----------------
 Email addresses or local users who receive administration notification emails.
-- *Default*: ['root']
+ - *Default*: ['root']
 
 ===
 
@@ -206,6 +206,15 @@ rancid::groups:
   - 'routers'
   - 'switches'
   - 'firewalls'
+
+rancid::mail_users:
+  - 'user1@example.com'
+  - 'user2@example.com'
+  - 'root'
+
+rancid::mail_admins:
+  - 'admin1@example.com'
+  - 'root'
 
 rancid::devices:
   routers:
