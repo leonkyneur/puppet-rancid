@@ -41,7 +41,7 @@ class rancid (
       $default_shell           = '/bin/bash'
       $default_homedir         = '/var/lib/rancid'
       $default_logdir          = '/var/log/rancid'
-      $default_rancid_path_env = '/usr/lib/rancid/bin:/bin:/usr/bin:/usr/local/bin'
+      $default_rancid_path_env = '/usr/lib/rancid/bin:/bin:/usr/bin:/usr/local/bin:/usr/sbin'
     }
     'RedHat': {
       case $::lsbmajdistrelease {
@@ -53,7 +53,7 @@ class rancid (
           $default_shell           = '/bin/bash'
           $default_homedir         = '/var/rancid'
           $default_logdir          = '/var/log/rancid'
-          $default_rancid_path_env = '/usr/libexec/rancid:/bin:/usr/bin:/usr/local/bin'
+          $default_rancid_path_env = '/usr/libexec/rancid:/bin:/usr/bin:/usr/local/bin:/usr/sbin'
         }
         default: {
           fail("Rancid supports osfamily RedHat release 6. Detected operatingsystemmajrelease is <${::operatingsystemmajrelease}>.")
@@ -228,7 +228,8 @@ class rancid (
       recipient => $mail_users,
     }
     exec { 'newaliases':
-      command     => '/usr/bin/newaliases',
+      command     => 'newaliases',
+      path        => '/usr/bin:/usr/sbin',
       refreshonly => true,
       subscribe   => Mailalias[$aliases],
     }
@@ -239,6 +240,5 @@ class rancid (
     ensure    => present,
     recipient => $mail_admins,
   }
-
 
 }
